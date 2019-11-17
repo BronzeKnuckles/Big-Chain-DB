@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, redirect, flash
 from backend import back
 from createform import createform
 from checkform import checkform
+from queryform import queryform 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'you-will-never-guess'
@@ -36,9 +37,15 @@ def check():
 def transfer():
 	return render_template('transfer.html')
 
-@app.route("/query")
+@app.route("/query", methods = ['GET','POST'])
 def query():
-	return render_template('query.html')
+	form = queryform()
+	if form.validate_on_submit():
+		srch = form.search.data
+		msg = back.queryer(srch)
+	
+		flash(msg)
+	return render_template('query.html',form = form)
 
 
 if __name__=='__main__':

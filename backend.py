@@ -42,6 +42,15 @@ class back:
 	def asset_transfer():
 		pass
 
+	def queryer(srch):
+		from bigchaindb_driver import BigchainDB
+		bdb = BigchainDB('https://test.ipdb.io/')
+		return bdb.assets.get(search=srch)
+
+
+
+
+
 
 
 

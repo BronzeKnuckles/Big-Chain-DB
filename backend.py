@@ -24,8 +24,8 @@ class back:
 
 		signed_tx = bdb.transactions.fulfill(tx,private_keys= alice.private_key)
 		bdb.transactions.send_commit(signed_tx)
-
-		return signed_tx
+		print(alice.private_key)
+		return signed_tx, alice.private_key
 
 	def checker(id):
 		from bigchaindb_driver import BigchainDB
@@ -39,13 +39,61 @@ class back:
 		
 	
 
-	def asset_transfer():
-		pass
+	def asset_transfer(txid,opk,rpk,oprk):
+		from bigchaindb_driver import BigchainDB
+		bdb = BigchainDB('https://test.ipdb.io/')
+		creation_tx = bdb.transactions.retrieve(txid)
+		asset_id = creation_tx['id']
+		ownerPrivateKey = oprk
+		ownerPublicKey = opk
+		recepientPublicKey = rpk
+
+		transfer_asset = {
+      	'id': asset_id,
+      	}
+
+		
+		output_index = 0
+
+		output = creation_tx['outputs'][output_index]
+		transfer_input = {
+        'fulfillment': output['condition']['details'],
+        'fulfills': {
+            'output_index': output_index,
+            'transaction_id': creation_tx['id'],
+        	},
+        'owners_before': output['public_keys'],
+   		}
+		prepared_transfer_tx = bdb.transactions.prepare(
+		operation='TRANSFER',
+		asset=transfer_asset,
+		inputs=transfer_input,
+		recipients=recepientPublicKey,
+   	 	)
+		fulfilled_transfer_tx = bdb.transactions.fulfill(
+    		prepared_transfer_tx,
+    		private_keys=ownerPrivateKey,
+ 		)
+		return fulfilled_transfer_tx, ownerPrivateKey
 
 	def queryer(srch):
 		from bigchaindb_driver import BigchainDB
 		bdb = BigchainDB('https://test.ipdb.io/')
 		return bdb.assets.get(search=srch)
+
+	def checkerpoform(ID,pk):
+		from bigchaindb_driver import BigchainDB
+		bdb = BigchainDB('https://test.ipdb.io/')
+		txid = ID
+		public_key = pk
+		output_index = 0
+		creation_tx = bdb.transactions.retrieve(txid)
+		output = creation_tx['outputs'][output_index]
+
+		if output['public_keys'][0] == public_key:
+			return "YES"
+		else:
+			return "NO"
 
 
 

@@ -11,6 +11,19 @@
 		<li><a href="{{ url_for('query')}}">Query</a></li>
 		<li><a href="{{ url_for('checkerpo')}}">Check for Previous Owner</a></li>
 	</ul>
+     <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+
+        <p>{{ form.submit() }}</p>
+    </form>
+
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <p>{{ messages }}</p>
+        {% endif %}
+    {% endwith %}
+
 </body>
 </html>
 

@@ -15,7 +15,15 @@
             {{ form.manufacturer.label }}<br>
             {{ form.manufacturer(size=32) }}
         </p>
-        
+         <p>
+            {{ form.prikey.label }}<br>
+            {{ form.prikey(size=32) }}
+        </p>
+         <p>
+            {{ form.pubkey.label }}<br>
+            {{ form.pubkey(size=32) }}
+        </p>
+
         <p>{{ form.submit() }}</p>
     </form>
     {% with messages = get_flashed_messages() %}

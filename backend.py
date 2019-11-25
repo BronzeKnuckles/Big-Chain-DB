@@ -20,7 +20,7 @@ class back:
             }, })
 
         signed_tx = bdb.transactions.fulfill(
-            tx, private_keys=alice.prikey)
+            tx, private_keys=prikey)
         bdb.transactions.send_commit(signed_tx)
         return signed_tx, prikey
 

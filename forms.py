@@ -21,12 +21,12 @@ class transferform(FlaskForm):
     opk = StringField('owner_public_key', validators=[DataRequired()])
     rpk = StringField('recepient_public_key', validators=[DataRequired()])
     oprk = StringField('owner_private_key', validators=[DataRequired()])
-    submit = SubmitField('TRANSFER')
+    submit = SubmitField('Sign Transaction and Transfer')
 
 
 class checkform(FlaskForm):
     id = StringField('id', validators=[DataRequired()])
-    submit = SubmitField('Create Asset')
+    submit = SubmitField('Check for Asset')
 
 
 class checkerpoform(FlaskForm):

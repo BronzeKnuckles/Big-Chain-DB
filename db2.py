@@ -67,12 +67,11 @@ def query():
     if form.validate_on_submit():
         srch = form.search.data
         msg = back.queryer(srch)
-
         flash(msg)
     return render_template('query.html', form=form)
 
 
-@app.route("/checker_po", methods=['GET', 'POST'])
+"""@app.route("/checker_po", methods=['GET', 'POST'])
 def checkerpo():
     form = checkerpoform()
     if form.validate_on_submit():
@@ -81,7 +80,7 @@ def checkerpo():
         msg = back.checkerpoform(ID, pk)
 
         flash(msg)
-    return render_template('checker_po.html', form=form)
+    return render_template('checker_po.html', form=form)"""
 
 
 if __name__ == '__main__':

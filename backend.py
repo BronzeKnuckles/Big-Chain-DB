@@ -29,10 +29,11 @@ class back:
         bdb = BigchainDB('https://test.ipdb.io/')
 
         block_height = bdb.blocks.get(txid=id)
-        if bdb.blocks.retrieve(str(block_height)):
-            return "sucess"
-        else:
-            return "failed or inqueue"
+        try:
+            if bdb.blocks.retrieve(str(block_height)):
+                return "sucess"
+        except:
+            return "failed or incorrect ID"
 
     def asset_transfer(txid, opk, rpk, oprk):
         from bigchaindb_driver import BigchainDB
@@ -73,9 +74,13 @@ class back:
     def queryer(srch):
         from bigchaindb_driver import BigchainDB
         bdb = BigchainDB('https://test.ipdb.io/')
-        return bdb.assets.get(search=srch)
+        msg = bdb.assets.get(search=srch)
+        if msg == []:
+            return "Not Found"
 
-    def checkerpoform(ID, pk):
+        return msg
+
+    """def checkerpoform(ID, pk):
         from bigchaindb_driver import BigchainDB
         bdb = BigchainDB('https://test.ipdb.io/')
         txid = ID
@@ -87,7 +92,7 @@ class back:
         if output['public_keys'][0] == public_key:
             return "YES"
         else:
-            return "NO"
+            return "NO"""
 
     def init():
         from bigchaindb_driver import BigchainDB

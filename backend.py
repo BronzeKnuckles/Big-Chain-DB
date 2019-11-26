@@ -4,7 +4,6 @@ class back:
 
     def docreate(d1, d2, pubkey, prikey):
         from bigchaindb_driver import BigchainDB
-        from bigchaindb_driver.crypto import generate_keypair
 
         print(d1, d2)
         bdb = BigchainDB('https://test.ipdb.io/')

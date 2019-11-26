@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, flash
-from forms import createform, checkform, queryform, transferform, checkerpoform, initform
+from forms import createform, checkform, queryform, transferform, initform
 from backend import back
 
 

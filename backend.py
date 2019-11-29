@@ -4,24 +4,26 @@ class back:
 
     def docreate(d1, d2, pubkey, prikey):
         from bigchaindb_driver import BigchainDB
+        try:
+            print(d1, d2)
+            bdb = BigchainDB('https://test.ipdb.io/')
 
-        print(d1, d2)
-        bdb = BigchainDB('https://test.ipdb.io/')
+            tx = bdb.transactions.prepare(
+                operation='CREATE',
+                signers=pubkey,
+                asset={'data': {
+                    'car': {
+                        'vehicle_number': d1,
+                        'manufacturer': d2,
+                    },
+                }, })
 
-        tx = bdb.transactions.prepare(
-            operation='CREATE',
-            signers=pubkey,
-            asset={'data': {
-                'car': {
-                    'vehicle_number': d1,
-                    'manufacturer': d2,
-                },
-            }, })
-
-        signed_tx = bdb.transactions.fulfill(
-            tx, private_keys=prikey)
-        bdb.transactions.send_commit(signed_tx)
-        return signed_tx, prikey
+            signed_tx = bdb.transactions.fulfill(
+                tx, private_keys=prikey)
+            bdb.transactions.send_commit(signed_tx)
+            return signed_tx, prikey
+        except:
+            return "INVALID KEYS"
 
     def checker(id):
         from bigchaindb_driver import BigchainDB
@@ -35,40 +37,43 @@ class back:
             return "failed or incorrect ID"
 
     def asset_transfer(txid, opk, rpk, oprk):
-        from bigchaindb_driver import BigchainDB
-        bdb = BigchainDB('https://test.ipdb.io/')
-        creation_tx = bdb.transactions.retrieve(txid)
-        asset_id = creation_tx['id']
-        ownerPrivateKey = oprk
-        ownerPublicKey = opk
-        recepientPublicKey = rpk
+        try:
+            from bigchaindb_driver import BigchainDB
+            bdb = BigchainDB('https://test.ipdb.io/')
+            creation_tx = bdb.transactions.retrieve(txid)
+            asset_id = creation_tx['id']
+            ownerPrivateKey = oprk
+            ownerPublicKey = opk
+            recepientPublicKey = rpk
 
-        transfer_asset = {
-            'id': asset_id,
-        }
+            transfer_asset = {
+                'id': asset_id,
+            }
 
-        output_index = 0
+            output_index = 0
 
-        output = creation_tx['outputs'][output_index]
-        transfer_input = {
-            'fulfillment': output['condition']['details'],
-            'fulfills': {
-                'output_index': output_index,
-                'transaction_id': creation_tx['id'],
-            },
-            'owners_before': output['public_keys'],
-        }
-        prepared_transfer_tx = bdb.transactions.prepare(
-            operation='TRANSFER',
-            asset=transfer_asset,
-            inputs=transfer_input,
-            recipients=recepientPublicKey,
-        )
-        fulfilled_transfer_tx = bdb.transactions.fulfill(
-            prepared_transfer_tx,
-            private_keys=ownerPrivateKey,
-        )
-        return fulfilled_transfer_tx, ownerPrivateKey
+            output = creation_tx['outputs'][output_index]
+            transfer_input = {
+                'fulfillment': output['condition']['details'],
+                'fulfills': {
+                    'output_index': output_index,
+                    'transaction_id': creation_tx['id'],
+                },
+                'owners_before': output['public_keys'],
+            }
+            prepared_transfer_tx = bdb.transactions.prepare(
+                operation='TRANSFER',
+                asset=transfer_asset,
+                inputs=transfer_input,
+                recipients=recepientPublicKey,
+            )
+            fulfilled_transfer_tx = bdb.transactions.fulfill(
+                prepared_transfer_tx,
+                private_keys=ownerPrivateKey,
+            )
+            return fulfilled_transfer_tx, ownerPrivateKey
+        except:
+            return "INVALID INPUT / INVALID KEYS"," "
 
     def queryer(srch):
         from bigchaindb_driver import BigchainDB

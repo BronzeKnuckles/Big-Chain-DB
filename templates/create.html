@@ -26,10 +26,22 @@
 
 .navbar a.active {
   background-color: #4CAF50;
-  color: white;
+  color: white;}
+
+body{
+
+   background-image: url('static/car.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 </style>
 </head>
-<body background="{{url_for('static',filename='vehicle.png')}}">
+<body>
+  
+   
+  
     <div class = "navbar">
         <a href="{{ url_for('home')}}">HOME</a>
         <a href="{{ url_for('create')}}">CREATE</a>
@@ -38,24 +50,25 @@
         <a href="{{ url_for('query')}}">Query</a>
         
     </div>
-<h1><font color="black">Create Asset</font></h1>
+
+<h1><b><font color="black">Create Asset</b></font></h1>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
-        <p>
-            {{ form.vehiclenumber.label }}<br>
+        <p><b><font color="red">
+            {{ form.vehiclenumber.label }}</b></font><br>
             {{ form.vehiclenumber(size=32) }}
 
         </p>
-        <p>
-            {{ form.manufacturer.label }}<br>
+        <p><b><font color="red">
+            {{ form.manufacturer.label }}</b></font><br>
             {{ form.manufacturer(size=32) }}
         </p>
-         <p>
-            {{ form.prikey.label }}<br>
+         <p><b><font color="red">
+            {{ form.prikey.label }}</b></font><br>
             {{ form.prikey(size=32) }}
         </p>
-         <p>
-            {{ form.pubkey.label }}<br>
+         <p><b><font color="red">
+            {{ form.pubkey.label }}</b></font><br>
             {{ form.pubkey(size=32) }}
         </p>
 
@@ -63,7 +76,7 @@
     </form>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <p>{{ messages }}</p>
+            <p><b><font color="white">{{ messages }}</b></font></p>
         {% endif %}
     {% endwith %}
     <!--<a href="{{ url_for('home') }}"> GO HOME</a>-->
